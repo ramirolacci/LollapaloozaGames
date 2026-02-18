@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Empanada Crush</title>
+    <link rel="icon" type="image/png" href="assets/logo/Logo Mi Gusto 2025.png">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/alerts.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        #game-container {
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container"></div>
+    <div id="alert-container"></div>
+
+    <!-- Phaser 3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- Game Scenes -->
+    <script src="js/LevelManager.js"></script>
+    <script src="js/AlertManager.js"></script>
+    <script src="js/scenes/BootScene.js"></script>
+    <script src="js/scenes/PreloaderScene.js"></script>
+    <script src="js/scenes/GameScene.js"></script>
+    <script src="js/scenes/UIScene.js"></script>
+
+    <!-- Core Game -->
+    <script src="js/game.js"></script>
+</body>
+
+</html>

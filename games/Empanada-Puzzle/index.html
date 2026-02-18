@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Empanada Puzzle</title>
+    <link rel="icon" type="image/png" href="assets/Logo Mi Gusto 2025.png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@400;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Tailwind (CDN for rapid prototyping/compatibility, though we will move to custom CSS) -->
+    <!-- Using standard CSS as requested, but keeping structure ready for styling -->
+</head>
+
+<body>
+
+    <div id="game-container">
+        <!-- Background Elements -->
+        <div class="bg-gradient-overlay"></div>
+        <div class="bg-blur-blob blob-1"></div>
+        <div class="bg-blur-blob blob-2"></div>
+
+        <!-- Header -->
+        <header>
+            <div class="logo-container">
+                <img id="logo" src="assets/Logo Mi Gusto 2025.png" alt="Logo">
+                <h1>EMPANADA PUZZLE</h1>
+            </div>
+            <p class="subtitle">DESAFÍO DE 1 MINUTO</p>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <div class="game-board-container">
+
+                <!-- HUD -->
+                <div class="hud">
+                    <div class="timer-container">
+                        <div class="icon-box" id="timer-icon-box">
+                            <!-- Timer Icon (SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="10" x2="14" y1="2" y2="2" />
+                                <line x1="12" x2="15" y1="14" y2="11" />
+                                <circle cx="12" cy="14" r="8" />
+                            </svg>
+                        </div>
+                        <div class="timer-text">
+                            <span class="label">TIEMPO</span>
+                            <span id="timer-display" class="value">01:00</span>
+                        </div>
+                    </div>
+
+                    <button id="restart-btn" class="restart-btn" aria-label="Reiniciar">
+                        <!-- RotateCcw Icon (SVG) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74-2.74L3 12" />
+                            <path d="M3 3v9h9" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Puzzle Grid -->
+                <div id="puzzle-grid" class="puzzle-grid">
+                    <!-- Tiles injected by JS -->
+
+                    <!-- Start Overlay -->
+                    <div id="start-overlay" class="overlay active">
+                        <h2>¿ESTÁS LISTO?</h2>
+                        <button id="start-btn" class="cta-btn">¡COMENZAR!</button>
+                        <button onclick="location.href='../../index.html'" class="cta-btn secondary"
+                            style="margin-top: 1rem;">MENÚ PRINCIPAL</button>
+                    </div>
+
+                    <!-- Game Over / Win Modal -->
+                    <div id="result-modal" class="overlay hidden">
+                        <div class="modal-content">
+                            <h2 id="result-title"></h2>
+                            <p id="result-message"></p>
+                            <button id="play-again-btn" class="cta-btn white">JUGAR DE NUEVO</button>
+                            <button onclick="location.href='../../index.html'" class="cta-btn secondary">MENÚ
+                                PRINCIPAL</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instructions">
+                    <span>DESLIZA O TOCA PARA MOVER LAS PIEZAS</span>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+
+    <!-- Game Logic -->
+    <script src="js/game.js"></script>
+</body>
+
+</html>

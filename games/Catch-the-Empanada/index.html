@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Catch the Empanada</title>
+    <link rel="icon" type="image/png" href="assets/logo/Logo%20Mi%20Gusto%202025.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="loading-screen">
+        <video id="load-video" muted playsinline>
+            <source src="assets/loadlogo/loadVideo.mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+    </div>
+
+    <div id="game-container" class="hidden">
+        <canvas id="gameCanvas" width="600" height="800"></canvas>
+
+        <!-- Pantalla de Inicio -->
+        <div id="ui-menu" class="ui-overlay">
+            <img src="assets/logo/descarga.png" alt="Logo" class="menu-logo">
+            <h1>CATCH THE EMPANADA</h1>
+            <p style="color: #f57f17; font-weight: bold; font-size: 1.2rem; margin-bottom: 5px;">Objetivo: 1200 Puntos
+            </p>
+            <p style="color: #000000; font-size: 1rem; margin-bottom: 15px;">Premio: Combo de 2 Empanadas</p>
+            <p>Atrapa las empanadas y evita "Mi Gusto"</p>
+            <button id="start-btn" class="restart-btn"
+                style="font-size: 1.5rem; padding: 1rem 3rem; margin-top: 20px;">COMENZAR</button>
+            <button class="restart-btn menu-btn" onclick="location.href='../../index.html'"
+                style="font-size: 1.2rem; padding: 0.8rem 2rem; margin-top: 10px;">MENÚ PRINCIPAL</button>
+            <div class="controls-hint">
+                <p>Mover: Mouse / Touch / Flechas</p>
+            </div>
+        </div>
+
+        <!-- Pantalla de Game Over -->
+        <div id="ui-gameover" class="ui-overlay hidden">
+            <h1 class="gameover-text">GAME OVER</h1>
+            <p id="final-score">Puntaje Final: 0</p>
+            <button id="restart-btn">REINTENTAR</button>
+            <button class="restart-btn menu-btn" onclick="location.href='../../index.html'">MENÚ PRINCIPAL</button>
+        </div>
+
+        <!-- Pantalla de Victoria -->
+        <div id="ui-win" class="ui-overlay hidden">
+            <h1 class="win-text">¡GANASTE!</h1>
+            <p class="blink" style="color: var(--accent-color); font-size: 1.2rem;">¡Obtuviste el premio!</p>
+            <img src="assets/empanadas/empanada-big-burger.png" alt="Premio"
+                style="width: 80px; margin: 10px auto; display: block;">
+            <p id="win-score">Puntaje Final: 0</p>
+            <button id="restart-win-btn" class="restart-btn">JUGAR DE NUEVO</button>
+        </div>
+
+        <!-- HUD (Score y Vidas) -->
+        <div id="hud" class="hidden">
+            <div id="score">Score: 0</div>
+            <div id="missed">Perdidas: 0/3</div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="game.js"></script>
+</body>
+
+</html>

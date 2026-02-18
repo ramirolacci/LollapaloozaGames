@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pacman Empanada</title>
+    <link rel="icon" type="image/png" href="Logo Mi Gusto 2025.png">
+    <link rel="stylesheet" href="Style.css">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.12/dist/phaser.js"></script>
+</head>
+
+<body>
+    <img src="Logo Mi Gusto 2025.png" class="logo-top-left" alt="Logo">
+
+    <div class="container">
+        <div class="social-links">
+            <div id="pacman-banner">
+                <img src="pacman-empanada.png" class="title-icon" alt="icon">
+                PacMan Empanada
+            </div>
+        </div>
+    </div>
+
+    <div class="container game-container">
+        <div id="start-screen">
+            <h1>¡Bienvenido a PacMan Empanada!</h1>
+            <p>Instrucciones:</p>
+            <ul>
+                <li>Usa las flechas para moverte.</li>
+                <li>Come todos los puntos para ganar.</li>
+                <li>Evita a los fantasmas empanada.</li>
+            </ul>
+            <p class="prize">Premio: ¡Combo de 2 Empanadas!</p>
+            <button id="start-btn">COMENZAR</button>
+            <button onclick="location.href='../../index.html'"
+                style="display: block; margin: 10px auto; background-color: #333; padding: 10px 20px; color: white; border: none; cursor: pointer;">MENÚ
+                PRINCIPAL</button>
+        </div>
+        <div id="win-screen" class="hidden">
+            <h1>¡GANASTE!</h1>
+            <p class="congrats">¡Comiste todas las empanadas!</p>
+            <p class="prize">TU PREMIO: ¡Combo de 2 Empanadas!</p>
+            <button id="restart-btn">JUGAR DE NUEVO</button>
+        </div>
+        <div id="gameover-screen" class="hidden">
+            <h1>¡PERDISTE!</h1>
+            <p class="congrats">¡Te atrapó un fantasma!</p>
+            <button id="retry-btn">VOLVER A INTENTAR</button>
+            <button onclick="location.href='../../index.html'"
+                style="display: block; margin: 10px auto; background-color: #333;">MENÚ PRINCIPAL</button>
+        </div>
+        <canvas id="mycanvas"></canvas>
+    </div>
+
+    <script>
+        window.twttr = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+            return t;
+        }(document, "script", "twitter-wjs"));
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

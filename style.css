@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fredoka', sans-serif;
+}
+
+body {
+    background-color: #000000;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+}
+
+.logo {
+    max-width: 300px;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
+    color: #ffffff;
+    display: none;
+    /* Hidden as we have the logo now, or keep it if user wants both? Request said "tematizalo todo de negro con el logo", usually logo replaces text title or sits above. I'll keep title for accessibility but maybe smaller or hidden if logo is huge. Let's keep it visible but smaller/complementary or just rely on logo. The prompt said "tematizalo todo de negro CON el logo". I'll put logo above. */
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.game-card {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 2rem;
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    /* Red glow for Mi Gusto brand feel? Or just white. let's go with a subtle glow */
+    border-color: #ff0000;
+    /* Mi Gusto red? */
+    background: #252525;
+}
+
+.icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.game-card h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logo {
+        max-width: 200px;
+    }
+}

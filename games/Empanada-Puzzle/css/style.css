@@ -1,0 +1,456 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@400;700;900&display=swap');
+
+:root {
+    --color-primary: #f59e0b;
+    /* Amber 500 */
+    --color-primary-hover: #fbbf24;
+    /* Amber 400 */
+    --color-bg: #000000;
+    --color-text: #ffffff;
+    --color-text-muted: rgba(255, 255, 255, 0.5);
+    --font-main: 'Fredoka', sans-serif;
+    --font-display: 'Chewy', cursive;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../assets/background-text.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Background Effects */
+.bg-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-blur-blob {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    background: rgba(113, 113, 122, 0.05);
+    /* zinc-500/5 */
+    border-radius: 9999px;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+}
+
+/* Header */
+header {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    position: relative;
+    width: 100%;
+}
+
+#logo {
+    height: 6rem;
+    /* md:h-24 */
+    width: auto;
+    position: absolute;
+    left: 2rem;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 13px rgba(0, 0, 0, 0.03)) drop-shadow(0 8px 5px rgba(0, 0, 0, 0.08));
+}
+
+h1 {
+    font-size: 3.75rem;
+    /* 6xl */
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    /* xs */
+}
+
+/* Main Layout */
+main {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transform: translateY(3rem);
+    /* translate-y-12 */
+}
+
+.game-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 56rem;
+    /* 4xl */
+    width: 100%;
+}
+
+/* HUD (Heads Up Display) - Timer & Restart */
+.hud {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.timer-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.icon-box {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: rgba(245, 158, 11, 0.2);
+    /* amber-500/20 */
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-text .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+}
+
+.timer-text .value {
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+/* Restart Button */
+.restart-btn {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 0.75rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restart-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.restart-btn:active {
+    transform: scale(0.95);
+}
+
+.restart-btn:hover svg {
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease;
+}
+
+/* Puzzle Grid */
+.puzzle-grid {
+    display: grid;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    position: relative;
+    overflow: hidden;
+    width: min(90vw, 500px);
+    aspect-ratio: 1/1;
+    /* Grid columns set by JS */
+}
+
+.puzzle-tile {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    transition: transform 0.1s;
+    touch-action: none;
+}
+
+.puzzle-tile:active {
+    transform: scale(0.95);
+}
+
+.tile-image {
+    position: absolute;
+    inset: 0;
+    /* Background Image set by JS */
+    background-repeat: no-repeat;
+}
+
+.tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    transition: background 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.puzzle-tile:hover .tile-overlay {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.empty-tile {
+    width: 100%;
+    height: 100%;
+    background: rgba(24, 24, 27, 0.5);
+    /* zinc-900/50 */
+    border-radius: 0.5rem;
+}
+
+/* Overlays (Start & Modal) */
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    transition: opacity 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay h2 {
+    font-size: 3rem;
+    /* 5xl */
+    font-weight: 900;
+    color: white;
+    margin-bottom: 2rem;
+    text-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cta-btn {
+    padding: 1rem 2rem;
+    background-color: var(--color-primary);
+    color: black;
+    font-size: 1.25rem;
+    font-weight: 900;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.cta-btn:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.cta-btn:active {
+    transform: scale(0.95);
+}
+
+.cta-btn.white {
+    background-color: white;
+    color: black;
+}
+
+.cta-btn.white:hover {
+    background-color: #f3f4f6;
+    /* gray-100 */
+}
+
+/* Modal Specifics */
+.modal-content {
+    text-align: center;
+    padding: 2rem;
+    animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#result-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+#result-message {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.text-red {
+    color: #ef4444;
+}
+
+.bg-red {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+/* Footer Instructions */
+.instructions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.875rem;
+    /* sm */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header {
+        top: 1rem;
+    }
+
+    h1 {
+        font-size: 1.875rem;
+        /* 3xl */
+    }
+
+    #logo {
+        height: 2.5rem;
+        left: 0;
+        position: relative;
+        margin-right: 0.5rem;
+    }
+
+    .logo-container {
+        justify-content: center;
+    }
+
+    .hud {
+        padding: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .timer-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .restart-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.75rem;
+        z-index: 30;
+    }
+
+    /* Move restart button out of HUD on mobile or restyle */
+}

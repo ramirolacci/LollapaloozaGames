@@ -1,0 +1,329 @@
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: black;
+    background-image: url('background-text.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.social-links {
+    padding: 5px;
+    width: 560px;
+}
+
+#pacman-banner {
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 35pt;
+    color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.title-icon {
+    height: 60px;
+    margin-right: 20px;
+}
+
+.social-buttons {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: none;
+    /* Hiding social buttons to prioritize centered title as requested, or just positioning cleanly */
+}
+
+.game-container {
+    width: 800px;
+    height: 625px;
+    transform: scale(0.75);
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Start Screen Styles */
+#start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 625px;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    z-index: 2000;
+    border: 4px solid yellow;
+    box-sizing: border-box;
+    /* Include border in size */
+    text-align: center;
+}
+
+#start-screen h1 {
+    color: yellow;
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px #000;
+    text-transform: uppercase;
+}
+
+#start-screen p {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+#start-screen ul {
+    text-align: left;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+#start-screen .prize {
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 32px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px #000;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+#start-screen button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 20px 50px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#start-screen button:hover {
+    transform: scale(1.1);
+    background-color: #ffd700;
+}
+
+#start-screen.hidden {
+    display: none;
+}
+
+.logo-top-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 150px;
+    z-index: 1000;
+}
+
+/* Win Screen Styles (Reusing much of Start Screen) */
+#win-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 625px;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    z-index: 2000;
+    border: 4px solid #00ff00;
+    /* Green border for win */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#win-screen h1 {
+    color: #00ff00;
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #000;
+    text-transform: uppercase;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+#win-screen .congrats {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+#win-screen .prize {
+    color: yellow;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px #000;
+    animation: blink 0.5s infinite;
+}
+
+#win-screen button {
+    background-color: #00ff00;
+    color: black;
+    border: none;
+    padding: 20px 50px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#win-screen button:hover {
+    transform: scale(1.1);
+    background-color: #32cd32;
+}
+
+#win-screen.hidden {
+    display: none;
+}
+
+/* Game Over Screen Styles (Red Theme) */
+#gameover-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 625px;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    z-index: 2000;
+    border: 4px solid #ff0000;
+    /* Red border for lose */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#gameover-screen h1 {
+    color: #ff0000;
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #000;
+    text-transform: uppercase;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+#gameover-screen .congrats {
+    font-size: 28px;
+    margin: 10px 0;
+    margin-bottom: 40px;
+}
+
+#gameover-screen button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 20px 50px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+#gameover-screen button:hover {
+    transform: scale(1.1);
+    background-color: #cc0000;
+}
+
+#gameover-screen.hidden {
+    display: none;
+}

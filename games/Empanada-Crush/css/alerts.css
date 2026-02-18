@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Fredoka:wght@400;700&display=swap');
+
+#alert-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
+    /* Initially allow interaction through */
+}
+
+#alert-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: auto;
+}
+
+.modern-alert {
+    position: relative;
+    background: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 24px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 204, 0, 0.2);
+    color: white;
+    transform: scale(0.5);
+    opacity: 0;
+    pointer-events: auto;
+}
+
+.modern-alert h2 {
+    font-family: 'Chewy', cursive;
+    font-size: 42px;
+    margin: 0 0 10px 0;
+    background: linear-gradient(135deg, #ffcc00, #ff6600);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modern-alert p {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0 0 30px 0;
+    color: #eee;
+}
+
+.modern-alert .btn-modern {
+    background: linear-gradient(135deg, #ffcc00, #ffaa00);
+    border: none;
+    border-radius: 16px;
+    color: #000;
+    padding: 15px 35px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.modern-alert .btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(255, 204, 0, 0.4);
+}
+
+.modern-alert .btn-modern.menu-btn {
+    background: transparent;
+    border: 2px solid #ffcc00;
+    color: #ffcc00;
+    margin-top: 15px;
+    box-shadow: none;
+}
+
+.modern-alert .btn-modern.menu-btn:hover {
+    background: rgba(255, 204, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 204, 0, 0.2);
+}
+
+.modern-alert .btn-modern:active {
+    transform: translateY(1px);
+}
+
+.modern-alert.win {
+    border-color: #ffcc00;
+}
+
+.modern-alert.loss {
+    border-color: #e53935;
+}
+
+.modern-alert.loss h2 {
+    background: linear-gradient(135deg, #ff5252, #e53935);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modern-alert.loss .btn-modern {
+    background: linear-gradient(135deg, #ff5252, #e53935);
+    color: white;
+    box-shadow: 0 10px 20px rgba(229, 57, 53, 0.3);
+}
+
+.modern-alert.loss .btn-modern:hover {
+    box-shadow: 0 15px 25px rgba(229, 57, 53, 0.4);
+}
