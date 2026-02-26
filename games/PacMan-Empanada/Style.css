@@ -1,10 +1,9 @@
-html,
 body {
     margin: 0px;
     padding: 0px;
     width: 100%;
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
     background-color: black;
     background-image: url('background-text.jpg');
     background-size: cover;
@@ -54,11 +53,21 @@ body {
 }
 
 .game-container {
-    width: 800px;
-    height: 625px;
-    transform: scale(0.75);
-    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
     position: relative;
+}
+
+#mycanvas {
+    width: 95vw !important;
+    height: auto !important;
+    max-width: 800px;
+    border: 3px solid yellow;
+    border-radius: 10px;
 }
 
 /* Start Screen Styles */
@@ -326,4 +335,59 @@ body {
 
 #gameover-screen.hidden {
     display: none;
+}
+
+/* Touch Controls Styling */
+.touch-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+.horizontal-controls {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.control-btn {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 0, 0.8);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 6px 0 yellow, 0 8px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.1s;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.control-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 yellow, 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.control-btn.down {
+    background-color: rgba(255, 215, 0, 0.9);
+}
+
+@media (max-width: 600px) {
+    .control-btn {
+        width: 80px;
+        height: 80px;
+        font-size: 40px;
+    }
+
+    #pacman-banner {
+        font-size: 24pt;
+    }
 }

@@ -399,21 +399,8 @@ function gameLoop(timestamp) {
 function init() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Iniciar video de carga
-    loadVideo.play().catch(e => {
-        console.warn("Autoplay bloqueado o error en video:", e);
-        finishLoading();
-    });
-
-    loadVideo.onended = () => {
-        finishLoading();
-    };
-
-    // Seguridad: Si el video no carga en 5 segundos, forzar inicio
-    setTimeout(() => {
-        if (!gameContainer.classList.contains('hidden')) return;
-        finishLoading();
-    }, 5000);
+    // Skip loading video and finish loading immediately
+    finishLoading();
 }
 
 function finishLoading() {

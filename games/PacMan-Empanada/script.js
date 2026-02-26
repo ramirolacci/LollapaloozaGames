@@ -34,7 +34,9 @@ startButton.addEventListener("click", function () {
     newGame();
 });
 
+
 let game = new Phaser.Game(config);
+
 let cursors;
 let player;
 let ghosts = [];
@@ -70,6 +72,13 @@ let spritesheetPath = "https://raw.githubusercontent.com/kudchikarsk/phaser-pacm
 let tilesPath = "https://raw.githubusercontent.com/kudchikarsk/phaser-pacman/master/assets/images/background.png";
 let mapPath =
     "https://raw.githubusercontent.com/kudchikarsk/phaser-pacman/master/assets/levels/codepen-level.json";
+
+// Touch Control Listeners
+document.getElementById('btn-up').addEventListener('pointerdown', () => player.queueTurn(Phaser.UP));
+document.getElementById('btn-down').addEventListener('pointerdown', () => player.queueTurn(Phaser.DOWN));
+document.getElementById('btn-left').addEventListener('pointerdown', () => player.queueTurn(Phaser.LEFT));
+document.getElementById('btn-right').addEventListener('pointerdown', () => player.queueTurn(Phaser.RIGHT));
+
 let Animation = {
     Player: {
         Eat: "player-eat",
@@ -184,27 +193,8 @@ function create() {
     layer1 = map.createStaticLayer("Layer 1", tileset, 0, 0);
     layer1.setCollisionByProperty({ collides: true });
 
-    // Remove the "Red Bar" / Ghost House Door to prevent getting stuck
-    // We replace the door tiles with safe empty tiles (index 19)
-    try {
-        // Approximate location of the door based on ghost spawn y=11
-        // Door is likely at y=10, center x=12,13
-        map.putTileAt(19, 12, 10, true, layer1);
-        map.putTileAt(19, 13, 10, true, layer1);
-    } catch (e) {
-        console.warn("Could not remove ghost house door", e);
-    }
-
     layer2 = map.createStaticLayer("Layer 2", tileset, 0, 0);
     layer2.setCollisionByProperty({ collides: true });
-
-    // Remove visual door from Layer 2 if it exists there
-    try {
-        map.removeTileAt(12, 10, true, true, layer2);
-        map.removeTileAt(13, 10, true, true, layer2);
-    } catch (e) {
-        console.warn("Could not remove visual ghost house door", e);
-    }
 
     let spawnPoint = map.findObject("Objects", obj => obj.name === "Player");
     let position = new Phaser.Geom.Point(
@@ -249,12 +239,11 @@ function create() {
     let safeTiles = [];
     layer1.forEachTile(function (tile) {
         if (tile.index === 19 || tile.index === 18 || tile.index === -1) { // -1 is open space
-            // Exclude Ghost House area (approx center) to prevent getting stuck
-            // Door is at 12,10. Box is roughly 10-15, 8-12.
-            if (tile.x >= 10 && tile.x <= 15 && tile.y >= 8 && tile.y <= 12) {
-                return;
+            // ONLY Allow spawning in the middle section (Ghost house and surroundings)
+            // This prevents them from spawning in isolated decorative areas on the far right/left
+            if (tile.x >= 5 && tile.x <= 20 && tile.y >= 5 && tile.y <= 15) {
+                safeTiles.push({ x: tile.pixelX + offset, y: tile.pixelY + offset });
             }
-            safeTiles.push({ x: tile.pixelX + offset, y: tile.pixelY + offset });
         }
     });
 
@@ -329,7 +318,12 @@ function create() {
     for (let i = 0; i < player.life; i++) {
         livesImage.push(this.add.image(700 + i * 25, 605, "pacman-empanada").setScale(0.027));
     }
+
+    // Auto-start game since we hid the start screen
+    gameRunning = true;
+    newGame();
 }
+
 
 function respawn() {
     player.respawn();
@@ -466,7 +460,13 @@ class Ghost {
         this.anim = anim;
         this.speed = 130;
         this.moveTo = new Phaser.Geom.Point();
-        this.safetile = [-1, 18, 19];
+        this.safetile = [-1, 18, 19, 20]; // Added 20 for the ghost gate / red line
+
+        // Optimize physics body for no-stick movement
+        // Circle body smaller than tile (32px) prevents snagging on corners
+        let radius = 10; // 20px diameter (tile is 32px)
+        this.sprite.body.setCircle(radius, (this.sprite.width - radius * 2) / 2, (this.sprite.height - radius * 2) / 2);
+
         this.directions = [];
         this.opposites = [
             null,
@@ -482,7 +482,7 @@ class Ghost {
         this.current = Phaser.NONE;
         this.turning = Phaser.NONE;
         this.turningPoint = new Phaser.Geom.Point();
-        this.threshold = 32;
+        this.threshold = 8; // Smaller threshold for precision
         this.rnd = new Phaser.Math.RandomDataGenerator();
         this.sprite.anims.play(anim.Move, true);
         this.turnCount = 0;
@@ -490,6 +490,7 @@ class Ghost {
         this.turnAt = this.rnd.pick(this.turnAtTime);
         this.lastPosition = new Phaser.Geom.Point(0, 0);
         this.stuckTimer = 0;
+        this.lastTurnedTile = { x: -1, y: -1 };
     }
 
     freeze() {
@@ -555,16 +556,24 @@ class Ghost {
         // Detect if stuck
         if (Math.abs(this.sprite.x - this.lastPosition.x) < 0.1 && Math.abs(this.sprite.y - this.lastPosition.y) < 0.1) {
             this.stuckTimer++;
-            if (this.stuckTimer > 60) { // 1 second stuck
-                // Force random turn
-                let possible = [Phaser.LEFT, Phaser.RIGHT, Phaser.UP, Phaser.DOWN];
-                let newDir = Phaser.Math.RND.pick(possible);
-                this.move(newDir);
+            if (this.stuckTimer > 30) { // 0.5 seconds stuck
+                this.chase();
                 this.stuckTimer = 0;
             }
         } else {
             this.stuckTimer = 0;
         }
+
+        // Hard recovery: If really stuck (e.g. physics glitch), jump to current tile center
+        if (this.stuckTimer > 60) {
+            let tx = Phaser.Math.FloorTo(this.sprite.x / 32) * 32 + 16;
+            let ty = Phaser.Math.FloorTo(this.sprite.y / 32) * 32 + 16;
+            this.sprite.setPosition(tx, ty);
+            this.sprite.body.reset(tx, ty);
+            this.chase();
+            this.stuckTimer = 0;
+        }
+
         this.lastPosition.x = this.sprite.x;
         this.lastPosition.y = this.sprite.y;
 
@@ -582,36 +591,38 @@ class Ghost {
         ) {
             // If we hit a wall/unsafe tile
             if (this.turning !== Phaser.NONE) {
-                // We were trying to turn? Force it.
-                this.sprite.setPosition(this.turningPoint.x, this.turningPoint.y);
-                this.move(this.turning);
-                this.turning = Phaser.NONE;
+                // We were trying to turn? Force it if close enough.
+                if (Phaser.Math.Within(this.sprite.x, this.turningPoint.x, this.threshold * 2) &&
+                    Phaser.Math.Within(this.sprite.y, this.turningPoint.y, this.threshold * 2)) {
+                    this.sprite.setPosition(this.turningPoint.x, this.turningPoint.y);
+                    this.move(this.turning);
+                    this.turning = Phaser.NONE;
+                } else {
+                    this.chase(); // Recalculate if we hit a wall before turning
+                }
             } else {
-                // Try to reverse OR chase
-                // this.chase(); // Chase logic will pick new path
-                // But chase only runs below.
+                this.chase();
             }
         }
 
         // Smart AI: Chase Player at intersections or if blocked
+        let tx_tile = Phaser.Math.FloorTo(this.sprite.x / 32);
+        let ty_tile = Phaser.Math.FloorTo(this.sprite.y / 32);
+
         if (
             this.current === Phaser.NONE ||
-            (this.directions[this.current] && !this.isSafe(this.directions[this.current].index))
+            (this.directions[this.current] && !this.isSafe(this.directions[this.current].index)) ||
+            (tx_tile !== this.lastTurnedTile.x || ty_tile !== this.lastTurnedTile.y)
         ) {
-            // this.sprite.anims.play("faceRight", true); // Removing invalid animation
             this.chase();
         }
     }
-
     chase() {
         let turns = [];
         for (let i = 0; i < this.directions.length; i++) {
             let direction = this.directions[i];
             if (direction) {
                 if (this.isSafe(direction.index)) {
-                    // Don't turn back immediately unless dead end (handled by logic below usually?)
-                    // Actually, opposites logic prevents 180 here usually in setTurn?
-                    // But here we are picking a NEW turn.
                     turns.push(i);
                 }
             }
@@ -629,7 +640,7 @@ class Ghost {
         let minDist = 999999;
 
         // 20% Randomness to make them not too perfect
-        if (this.rnd.integerInRange(0, 100) < 20) {
+        if (this.rnd.integerInRange(0, 100) < 20 && turns.length > 0) {
             this.setTurn(this.rnd.pick(turns));
             return;
         }
@@ -638,7 +649,6 @@ class Ghost {
             let point = this.directions[turn];
             // Calculate distance to player from this potential new tile
             let dist = Phaser.Math.Distance.Between(point.x, point.y, player.sprite.x / 32, player.sprite.y / 32);
-            // point.x/y are in tile coords? No, getTileAt returns Tile object. x,y are tile indices.
 
             if (dist < minDist) {
                 minDist = dist;
@@ -652,7 +662,6 @@ class Ghost {
             this.setTurn(turns[0]);
         } else {
             // Fallback: If no turns found (e.g. boxed in or errored), try any random safe direction from opposite
-            // This prevents freezing.
             let reverseDirection = this.opposites[this.current];
             if (reverseDirection && this.directions[reverseDirection] && this.isSafe(this.directions[reverseDirection].index)) {
                 this.setTurn(reverseDirection);
@@ -677,8 +686,6 @@ class Ghost {
         ) {
             return false;
         }
-
-        //console.log("turning:"+this.turning+" current:"+this.current+" turnTo:"+turnTo);
 
         if (this.opposites[turnTo] && this.opposites[turnTo] === this.current) {
             this.move(turnTo);
@@ -707,8 +714,10 @@ class Ghost {
             }
         }
 
-        let turn = this.rnd.pick(turns);
-        this.setTurn(turn);
+        if (turns.length > 0) {
+            let turn = this.rnd.pick(turns);
+            this.setTurn(turn);
+        }
 
         this.turnCount = 0;
         this.turnAt = this.rnd.pick(this.turnAtTime);
@@ -716,7 +725,6 @@ class Ghost {
 
     turn() {
         if (this.turnCount === this.turnAt) {
-            // this.takeRandomTurn(); // Disable random turning at time
             this.chase(); // Periodically re-evaluate path
         }
         this.turnCount++;
@@ -725,7 +733,7 @@ class Ghost {
             return false;
         }
 
-        //  This needs a threshold, because at high speeds you can't turn because the coordinates skip past
+        // Precision threshold for turning
         if (
             !Phaser.Math.Within(this.sprite.x, this.turningPoint.x, this.threshold) ||
             !Phaser.Math.Within(this.sprite.y, this.turningPoint.y, this.threshold)
@@ -733,8 +741,16 @@ class Ghost {
             return false;
         }
 
+        // Snap to grid and reset physics body to ensure clean turn
         this.sprite.setPosition(this.turningPoint.x, this.turningPoint.y);
+        this.sprite.body.reset(this.turningPoint.x, this.turningPoint.y);
+
         this.move(this.turning);
+
+        let tx = Phaser.Math.FloorTo(this.sprite.x / 32);
+        let ty = Phaser.Math.FloorTo(this.sprite.y / 32);
+        this.lastTurnedTile = { x: tx, y: ty };
+
         this.turning = Phaser.NONE;
         this.turningPoint = new Phaser.Geom.Point();
         return true;
@@ -747,15 +763,12 @@ class Ghost {
             case Phaser.LEFT:
                 this.moveLeft();
                 break;
-
             case Phaser.RIGHT:
                 this.moveRight();
                 break;
-
             case Phaser.UP:
                 this.moveUp();
                 break;
-
             case Phaser.DOWN:
                 this.moveDown();
                 break;
@@ -766,7 +779,6 @@ class Ghost {
         for (let i of this.safetile) {
             if (i === index) return true;
         }
-
         return false;
     }
 

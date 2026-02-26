@@ -95,9 +95,8 @@ class PreloaderScene extends Phaser.Scene {
 
         this.load.on('complete', () => {
             assetText.setText('¡Listo para el Crush!');
-            this.time.delayedCall(500, () => {
-                this.scene.start('GameScene');
-            });
+            this.scene.start('GameScene');
         });
+
     }
 }

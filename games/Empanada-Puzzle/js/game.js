@@ -119,6 +119,7 @@ const initGame = () => {
     renderGrid();
 };
 
+
 const startGame = () => {
     if (hasStarted) return;
     hasStarted = true;

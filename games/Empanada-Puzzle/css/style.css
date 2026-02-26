@@ -297,26 +297,71 @@ main {
 }
 
 .overlay h2 {
-    font-size: 3rem;
-    /* 5xl */
+    font-size: 4rem;
+    font-family: var(--font-display);
     font-weight: 900;
-    color: white;
+    color: var(--color-primary);
     margin-bottom: 2rem;
-    text-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
+    line-height: 1.1;
+}
+
+.instructions-content {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 90%;
+    width: 400px;
+}
+
+.instructions-content p {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.instructions-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instructions-content li {
+    font-size: 1.25rem;
+    color: white;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.instructions-content li::before {
+    content: '•';
+    color: var(--color-primary);
+    font-weight: 900;
 }
 
 .cta-btn {
-    padding: 1rem 2rem;
+    padding: 1.25rem 3rem;
     background-color: var(--color-primary);
     color: black;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 900;
     border: none;
-    border-radius: 1rem;
+    border-radius: 1.25rem;
     cursor: pointer;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
 }
 
 .cta-btn:hover {

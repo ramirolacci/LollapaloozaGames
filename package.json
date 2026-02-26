@@ -1,0 +1,12 @@
+{
+  "name": "LollapaloozaGames",
+  "version": "1.0.0",
+  "description": "Empanada Arcade - Menú de Juegos",
+  "scripts": {
+    "dev": "live-server --port=3001 --open=/",
+    "start": "live-server --port=3001 --open=/"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

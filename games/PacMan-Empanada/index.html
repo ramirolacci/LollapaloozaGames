@@ -21,7 +21,8 @@
     </div>
 
     <div class="container game-container">
-        <div id="start-screen">
+        <div id="start-screen" class="hidden">
+
             <h1>¡Bienvenido a PacMan Empanada!</h1>
             <p>Instrucciones:</p>
             <ul>
@@ -49,6 +50,14 @@
                 style="display: block; margin: 10px auto; background-color: #333;">MENÚ PRINCIPAL</button>
         </div>
         <canvas id="mycanvas"></canvas>
+        <div id="controls" class="touch-controls">
+            <button class="control-btn up" id="btn-up">▲</button>
+            <div class="horizontal-controls">
+                <button class="control-btn left" id="btn-left">◀</button>
+                <button class="control-btn down" id="btn-down">▼</button>
+                <button class="control-btn right" id="btn-right">▶</button>
+            </div>
+        </div>
     </div>
 
     <script>
