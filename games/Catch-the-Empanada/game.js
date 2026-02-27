@@ -51,7 +51,7 @@ const empanadaImages = {
     ],
     premium: [
         'assets/empanadas/premium/CRUNCHY.png', 'assets/empanadas/premium/empanada-american-chicken.png', 'assets/empanadas/premium/empanada-big-burger.png',
-        'assets/empanadas/premium/empanada-cheese-burger.png', 'assets/empanadas/premium/empanada-matambre -alapizza.png',
+        'assets/empanadas/premium/empanada-cheese-burger.png', 'assets/empanadas/premium/empanada-matambre-alapizza.png',
         'assets/empanadas/premium/empanada-mexican-pibil-pork.png', 'assets/empanadas/premium/empanada-vacio-yprovoleta.png'
     ]
 };
@@ -94,10 +94,10 @@ empanadaImages.premium.forEach((src) => {
 });
 
 // Cargar Logo como objeto malo
-assets.badObject.src = 'assets/BOMBITA/BOMBITA-PNG.png';
+assets.badObject.src = 'assets/bombita/BOMBITA-PNG.png';
 assets.badObject.onload = () => assets.loaded.badObject = true;
 
-assets.player.src = 'assets/caja/CAJA CATCH GAME.png';
+assets.player.src = 'assets/caja/caja_catch_game.png';
 assets.player.onload = () => assets.loaded.player = true;
 
 // Sonidos (Web Audio API)
