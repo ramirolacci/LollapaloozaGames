@@ -66,13 +66,6 @@ class GameScene extends Phaser.Scene {
         });
 
         // Initialize Particles
-        this.particleManager = this.add.particles(0, 0, 'white_particle', {
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD',
-            lifespan: 500,
-            gravityY: 200
-        });
         // create a texture for the particle if it doesn't exist
         if (!this.textures.exists('white_particle')) {
             const graphics = this.make.graphics({ x: 0, y: 0, add: false });
@@ -80,6 +73,15 @@ class GameScene extends Phaser.Scene {
             graphics.fillCircle(4, 4, 4);
             graphics.generateTexture('white_particle', 8, 8);
         }
+
+        this.particleManager = this.add.particles(0, 0, 'white_particle', {
+            speed: 100,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD',
+            lifespan: 500,
+            gravityY: 200,
+            emitting: false
+        });
 
         // Dynamic Tile Size Calculation
         const maxBoardWidth = this.game.config.width * 0.95; // Use 95% of screen width
