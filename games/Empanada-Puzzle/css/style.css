@@ -514,28 +514,30 @@ main {
     }
 
     .hud {
-        padding: 1rem;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        justify-content: center;
+        padding: 1rem 1.5rem;
+        flex-wrap: nowrap;
+        /* Keep timer left, restart right */
+        gap: 1rem;
+        justify-content: space-between;
         margin-top: 2rem;
-        /* Initial space between header area and game */
+        width: 100%;
+        max-width: 400px;
     }
 
     .timer-container {
         width: auto;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0.75rem;
     }
 
     .restart-btn {
-        position: fixed;
-        /* Fixed relative to screen */
-        bottom: 2rem;
-        right: 2rem;
-        padding: 1rem;
-        z-index: 3000;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        position: relative;
+        /* Back in the HUD flow */
+        bottom: auto;
+        right: auto;
+        padding: 0.75rem;
+        z-index: 10;
+        box-shadow: none;
     }
 
     /* Mobile Modal behavior for overlays - THE FIX */
