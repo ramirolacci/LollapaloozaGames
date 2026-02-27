@@ -154,13 +154,27 @@ class Player {
 
 // Clase Objeto (Empanada o Pizza)
 class Item {
-    constructor() {
-        this.isGood = Math.random() > 0.2; // 80% empanadas, 20% pizzas
-        this.x = Math.random() * (CANVAS_WIDTH - ITEM_SIZE);
+    constructor(forcedType = null, forcedX = null) {
+        if (forcedType !== null) {
+            this.isGood = (forcedType === 'empanada');
+        } else {
+            // Probabilidad de bombitas (objetos malos) aumenta con el puntaje
+            const baseBadProb = 0.15; // Inicia en 15%
+            const maxBadProb = 0.45;  // Máximo 45%
+            const badProb = Math.min(maxBadProb, baseBadProb + (score / 1800));
+            this.isGood = Math.random() > badProb;
+        }
+
+        if (forcedX !== null) {
+            this.x = forcedX;
+        } else {
+            this.x = Math.random() * (CANVAS_WIDTH - ITEM_SIZE);
+        }
+
         this.y = -ITEM_SIZE;
         this.width = ITEM_SIZE;
         this.height = ITEM_SIZE;
-        this.speed = 2 + (score / 100); // Velocidad aumenta con el score
+        this.speed = 2.5 + (score / 80); // Velocidad aumenta un poco más rápido con el score
 
         // Efecto de rotación
         this.angle = 0;
@@ -341,6 +355,31 @@ function updateHUD() {
     missedEl.innerText = `Perdidas: ${missed}/3`;
 }
 
+function spawnStrategicPattern() {
+    const patternType = Math.floor(Math.random() * 3);
+    const spacing = 110; // Aumentado para que la caja (100px) quepa cómodamente
+
+    switch (patternType) {
+        case 0: // El Sándwich: [Bomba] [Empanada] [Bomba]
+            const startX = Math.random() * (CANVAS_WIDTH - spacing * 3);
+            items.push(new Item('bombita', startX));
+            items.push(new Item('empanada', startX + spacing));
+            items.push(new Item('bombita', startX + spacing * 2));
+            break;
+        case 1: // El Muro con hueco: [Bomba] [Bomba] [Empanada] [Bomba]
+            const startX2 = Math.random() * (CANVAS_WIDTH - spacing * 4);
+            const gapIndex = Math.floor(Math.random() * 4);
+            for (let i = 0; i < 4; i++) {
+                items.push(new Item(i === gapIndex ? 'empanada' : 'bombita', startX2 + i * spacing));
+            }
+            break;
+        case 2: // Doble Diagonal: [Empanada] y [Empanada] en puntas
+            items.push(new Item('empanada', 20));
+            items.push(new Item('empanada', CANVAS_WIDTH - ITEM_SIZE - 20));
+            break;
+    }
+}
+
 function gameLoop(timestamp) {
     if (gameState !== 'PLAYING') return;
 
@@ -348,10 +387,17 @@ function gameLoop(timestamp) {
 
     // Spawn de objetos
     if (timestamp - lastSpawnTime > spawnRate && items.length < MAX_ITEMS) {
-        items.push(new Item());
+        const patternChance = score > 200 ? 0.2 : 0; // 20% de probabilidad de patrón después de 200 puntos
+
+        if (Math.random() < patternChance && items.length <= MAX_ITEMS - 3) {
+            spawnStrategicPattern();
+        } else {
+            items.push(new Item());
+        }
+
         lastSpawnTime = timestamp;
-        // Aumentar dificultad
-        spawnRate = Math.max(400, INITIAL_SPAWN_RATE - (score * 5));
+        // Aumentar dificultad: los objetos aparecen más rápido conforme sube el score
+        spawnRate = Math.max(350, INITIAL_SPAWN_RATE - (score * 6));
     }
 
     player.update();
@@ -363,11 +409,14 @@ function gameLoop(timestamp) {
         item.draw();
 
         // Colisión con jugador
+        // Refinamos la colisión para objetos malos (hitbox más pequeña para ser justos)
+        const hitboxPadding = item.isGood ? 0 : 15; // 15px de margen para bombitas
+
         if (
-            item.y + item.height > player.y &&
-            item.y < player.y + player.height &&
-            item.x + item.width > player.x &&
-            item.x < player.x + player.width
+            item.y + item.height - hitboxPadding > player.y &&
+            item.y + hitboxPadding < player.y + player.height &&
+            item.x + item.width - hitboxPadding > player.x &&
+            item.x + hitboxPadding < player.x + player.width
         ) {
             if (item.isGood) {
                 score += item.scoreValue;
