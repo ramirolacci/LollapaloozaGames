@@ -41,16 +41,20 @@ let animationId;
 
 // Imágenes
 // Imágenes
-const empanadaImages = [
-    'assets/empanadas/CRUNCHY.png', 'assets/empanadas/calabaza.png', 'assets/empanadas/carnepicante.png',
-    'assets/empanadas/carnesuave.png', 'assets/empanadas/carneyaceiituna.png', 'assets/empanadas/choclo.png',
-    'assets/empanadas/cortadacuchillo.png', 'assets/empanadas/cuatroquesos.png', 'assets/empanadas/empanada-american-chicken.png',
-    'assets/empanadas/empanada-big-burger.png', 'assets/empanadas/empanada-cheese-burger.png', 'assets/empanadas/empanada-matambre -alapizza.png',
-    'assets/empanadas/empanada-mexican-pibil-pork.png', 'assets/empanadas/empanada-vacio-yprovoleta.png', 'assets/empanadas/jamonyhuevo.png',
-    'assets/empanadas/jamonyqueso.png', 'assets/empanadas/pancetayciruela.png', 'assets/empanadas/pollo.png',
-    'assets/empanadas/polloychampi.png', 'assets/empanadas/quesoycebolla.png', 'assets/empanadas/roquefortyjamon.png',
-    'assets/empanadas/verdura.png'
-];
+const empanadaImages = {
+    clasicas: [
+        'assets/empanadas/clasicas/calabaza.png', 'assets/empanadas/clasicas/carnepicante.png', 'assets/empanadas/clasicas/carnesuave.png',
+        'assets/empanadas/clasicas/carneyaceiituna.png', 'assets/empanadas/clasicas/choclo.png', 'assets/empanadas/clasicas/cortadacuchillo.png',
+        'assets/empanadas/clasicas/cuatroquesos.png', 'assets/empanadas/clasicas/jamonyhuevo.png', 'assets/empanadas/clasicas/jamonyqueso.png',
+        'assets/empanadas/clasicas/pancetayciruela.png', 'assets/empanadas/clasicas/pollo.png', 'assets/empanadas/clasicas/polloychampi.png',
+        'assets/empanadas/clasicas/quesoycebolla.png', 'assets/empanadas/clasicas/roquefortyjamon.png', 'assets/empanadas/clasicas/verdura.png'
+    ],
+    premium: [
+        'assets/empanadas/premium/CRUNCHY.png', 'assets/empanadas/premium/empanada-american-chicken.png', 'assets/empanadas/premium/empanada-big-burger.png',
+        'assets/empanadas/premium/empanada-cheese-burger.png', 'assets/empanadas/premium/empanada-matambre -alapizza.png',
+        'assets/empanadas/premium/empanada-mexican-pibil-pork.png', 'assets/empanadas/premium/empanada-vacio-yprovoleta.png'
+    ]
+};
 
 const pizzaImages = [
     'assets/pizzas/jamoncrudo.png', 'assets/pizzas/jamonymorron.png', 'assets/pizzas/mortadelaypistacho.png',
@@ -58,22 +62,35 @@ const pizzaImages = [
 ];
 
 const assets = {
-    empanadas: [],
+    empanadas: { clasicas: [], premium: [] },
     badObject: new Image(), // Reemplazamos pizzas por el logo
     player: new Image(),
     loaded: { empanadas: false, badObject: false, player: false }
 };
 
+let floatingTexts = []; // Para las animaciones de +10 / +20
+
 // Cargar empanadas
-let empanadasLoaded = 0;
-empanadaImages.forEach((src) => {
+let empanadasToLoad = empanadaImages.clasicas.length + empanadaImages.premium.length;
+let empanadasLoadedCount = 0;
+
+function checkEmpanadasLoaded() {
+    empanadasLoadedCount++;
+    if (empanadasLoadedCount === empanadasToLoad) assets.loaded.empanadas = true;
+}
+
+empanadaImages.clasicas.forEach((src) => {
     const img = new Image();
     img.src = src;
-    img.onload = () => {
-        empanadasLoaded++;
-        if (empanadasLoaded === empanadaImages.length) assets.loaded.empanadas = true;
-    };
-    assets.empanadas.push(img);
+    img.onload = checkEmpanadasLoaded;
+    assets.empanadas.clasicas.push(img);
+});
+
+empanadaImages.premium.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = checkEmpanadasLoaded;
+    assets.empanadas.premium.push(img);
 });
 
 // Cargar Logo como objeto malo
@@ -150,7 +167,11 @@ class Item {
         this.rotationSpeed = (Math.random() - 0.5) * 0.08; // Velocidad de giro aleatoria
 
         if (this.isGood) {
-            this.imgIndex = Math.floor(Math.random() * assets.empanadas.length);
+            const isPremium = Math.random() > 0.7; // 30% de probabilidad de ser premium
+            this.type = isPremium ? 'premium' : 'clasicas';
+            this.scoreValue = isPremium ? 20 : 10;
+            const categoryImages = assets.empanadas[this.type];
+            this.imgIndex = Math.floor(Math.random() * categoryImages.length);
         }
     }
 
@@ -167,7 +188,7 @@ class Item {
 
         if (this.isGood) {
             if (assets.loaded.empanadas) {
-                this.drawImageContain(assets.empanadas[this.imgIndex]);
+                this.drawImageContain(assets.empanadas[this.type][this.imgIndex]);
             } else {
                 this.drawEmpanadaFallback();
             }
@@ -349,14 +370,35 @@ function gameLoop(timestamp) {
             item.x < player.x + player.width
         ) {
             if (item.isGood) {
-                score += 10;
+                score += item.scoreValue;
                 playSound(600, 'sine', 0.1);
+
+                // Crear texto flotante
+                const fText = {
+                    x: player.x + player.width / 2,
+                    y: player.y,
+                    text: `+${item.scoreValue}`,
+                    opacity: 1,
+                    scale: 1.5
+                };
+                floatingTexts.push(fText);
+
+                // Animación GSAP para el texto flotante
+                gsap.to(fText, {
+                    y: player.y - 100,
+                    opacity: 0,
+                    scale: 2,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        floatingTexts = floatingTexts.filter(t => t !== fText);
+                    }
+                });
 
                 // Efecto GSAP: Score Pop
                 gsap.fromTo(scoreEl, { scale: 1.5, color: "#fbc02d" }, { scale: 1, color: "#ffffff", duration: 0.4, ease: "back.out(2)" });
 
                 // Efecto GSAP: Rebote en la caja
-                // Usamos una variable interna para un pequeño desvío en el dibujo
                 player.bounceY = 10;
                 gsap.to(player, { bounceY: 0, duration: 0.3, ease: "elastic.out(1, 0.3)" });
 
@@ -390,6 +432,24 @@ function gameLoop(timestamp) {
             items.splice(i, 1);
         }
     }
+
+    // Dibujar textos flotantes
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 30px "Outfit", sans-serif';
+    floatingTexts.forEach(t => {
+        ctx.globalAlpha = t.opacity;
+        ctx.fillStyle = '#e1bd60ff';
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.save();
+        ctx.translate(t.x, t.y);
+        ctx.scale(t.scale, t.scale);
+        ctx.strokeText(t.text, 0, 0);
+        ctx.fillText(t.text, 0, 0);
+        ctx.restore();
+    });
+    ctx.restore();
 
     animationId = requestAnimationFrame(gameLoop);
 }
