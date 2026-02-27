@@ -231,9 +231,6 @@ const handleGameOver = () => {
 
 const renderGrid = () => {
     gridEl.innerHTML = '';
-    // Append overlays back to grid to preserve them
-    gridEl.appendChild(startOverlay);
-    gridEl.appendChild(resultModal);
 
     tiles.forEach((tileId, index) => {
         const tileEl = document.createElement('div');

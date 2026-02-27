@@ -71,34 +71,34 @@
                 <!-- Puzzle Grid -->
                 <div id="puzzle-grid" class="puzzle-grid">
                     <!-- Tiles injected by JS -->
+                </div>
 
-                    <!-- Start Overlay -->
-                    <div id="start-overlay" class="overlay active">
-                        <h2>¿ESTÁS LISTO?</h2>
-                        <div class="instructions-content">
-                            <p>Cómo jugar:</p>
-                            <ul>
-                                <li>Desliza las piezas para moverlas</li>
-                                <li>Ordena la imagen correctamente</li>
-                                <li>Tienes 1 minuto para ganar</li>
-                            </ul>
-                        </div>
-                        <button id="start-btn" class="cta-btn">¡COMENZAR!</button>
-                        <button onclick="location.href='../../index.html'" class="cta-btn secondary"
-                            style="margin-top: 1.5rem; background-color: rgba(255,255,255,0.1); color: white; padding: 0.75rem 2rem; font-size: 1.1rem;">MENÚ
-                            PRINCIPAL</button>
+                <!-- Start Overlay (Moved out of grid) -->
+                <div id="start-overlay" class="overlay active">
+                    <h2>¿ESTÁS LISTO?</h2>
+                    <div class="instructions-content">
+                        <p>Cómo jugar:</p>
+                        <ul>
+                            <li>Desliza las piezas para moverlas</li>
+                            <li>Ordena la imagen correctamente</li>
+                            <li>Tienes 1 minuto para ganar</li>
+                        </ul>
                     </div>
+                    <button id="start-btn" class="cta-btn">¡COMENZAR!</button>
+                    <button onclick="location.href='../../index.html'" class="cta-btn secondary"
+                        style="margin-top: 1.5rem; background-color: rgba(255,255,255,0.1); color: white; padding: 0.75rem 2rem; font-size: 1.1rem;">MENÚ
+                        PRINCIPAL</button>
+                </div>
 
 
-                    <!-- Game Over / Win Modal -->
-                    <div id="result-modal" class="overlay hidden">
-                        <div class="modal-content">
-                            <h2 id="result-title"></h2>
-                            <p id="result-message"></p>
-                            <button id="play-again-btn" class="cta-btn white">JUGAR DE NUEVO</button>
-                            <button onclick="location.href='../../index.html'" class="cta-btn secondary">MENÚ
-                                PRINCIPAL</button>
-                        </div>
+                <!-- Game Over / Win Modal (Moved out of grid) -->
+                <div id="result-modal" class="overlay hidden">
+                    <div class="modal-content">
+                        <h2 id="result-title"></h2>
+                        <p id="result-message"></p>
+                        <button id="play-again-btn" class="cta-btn white">JUGAR DE NUEVO</button>
+                        <button onclick="location.href='../../index.html'" class="cta-btn secondary">MENÚ
+                            PRINCIPAL</button>
                     </div>
                 </div>
 

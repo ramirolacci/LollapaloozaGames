@@ -286,9 +286,11 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.85);
+    /* Slightly darker for better contrast */
     backdrop-filter: blur(12px);
     transition: opacity 0.3s ease;
+    padding: 1rem;
 }
 
 .overlay.hidden {
@@ -457,8 +459,38 @@ main {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        /* Robust centering */
+    }
+
+    /* General Centering for Game Layout on Mobile */
+    main {
+        transform: none;
+        /* Remove desktop translateY */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .game-board-container {
+        justify-content: center;
+        width: 100%;
+        padding: 0 1rem;
+        margin-top: 2rem;
+        /* Give room for fixed header if any */
+    }
+
     header {
-        top: 1rem;
+        top: 1.5rem;
+        position: fixed;
+        /* Keep it fixed at top */
     }
 
     h1 {
@@ -467,7 +499,7 @@ main {
     }
 
     #logo {
-        height: 2.5rem;
+        height: 3rem;
         left: 0;
         position: relative;
         margin-right: 0.5rem;
@@ -482,6 +514,8 @@ main {
         flex-wrap: wrap;
         gap: 1rem;
         justify-content: center;
+        margin-top: 4rem;
+        /* Push HUD down below fixed header area */
     }
 
     .timer-container {
@@ -497,5 +531,56 @@ main {
         z-index: 30;
     }
 
-    /* Move restart button out of HUD on mobile or restyle */
+    /* Mobile Modal behavior for overlays - THE FIX */
+    .overlay {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        inset: 0;
+        z-index: 2000;
+        /* Extremely high to stay on top of EVERYTHING */
+        padding: 2.5rem 1.5rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.9);
+        /* More opaque for focus */
+    }
+
+    .overlay h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .instructions-content {
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 340px;
+        margin-bottom: 1.5rem;
+    }
+
+    .instructions-content p {
+        font-size: 1.25rem;
+    }
+
+    .instructions-content li {
+        font-size: 1.1rem;
+    }
+
+    .cta-btn {
+        padding: 1rem 2rem;
+        font-size: 1.3rem;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .puzzle-grid {
+        width: 92vw;
+        /* Slight reduction for better padding */
+        height: 92vw;
+        max-width: 500px;
+        max-height: 500px;
+    }
 }
