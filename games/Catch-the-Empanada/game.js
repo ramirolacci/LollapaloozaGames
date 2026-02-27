@@ -77,10 +77,10 @@ empanadaImages.forEach((src) => {
 });
 
 // Cargar Logo como objeto malo
-assets.badObject.src = 'assets/logo/Logo Mi Gusto 2025.png';
+assets.badObject.src = 'assets/BOMBITA/BOMBITA-PNG.png';
 assets.badObject.onload = () => assets.loaded.badObject = true;
 
-assets.player.src = 'assets/caja/cajauser.png';
+assets.player.src = 'assets/caja/CAJA CATCH GAME.png';
 assets.player.onload = () => assets.loaded.player = true;
 
 // Sonidos (Web Audio API)
