@@ -516,7 +516,8 @@ class GameScene extends Phaser.Scene {
                     }
                 });
 
-                this.updateScore(score);
+                this.score += score;
+                this.events.emit('updateScore', this.score);
                 this.dropTiles();
             }
         });
