@@ -35,11 +35,12 @@ function resizeCanvas() {
     CANVAS_WIDTH = canvas.width;
     CANVAS_HEIGHT = canvas.height;
     // Adjust player Y position to stay near bottom
-    player.y = CANVAS_HEIGHT - player.height - 20;
+    if (typeof player !== 'undefined') {
+        player.y = CANVAS_HEIGHT - player.height - 20;
+    }
 }
 window.addEventListener('resize', resizeCanvas);
-// Initial sizing
-resizeCanvas();
+// Initial sizing will be called after player initialization
 const INITIAL_SPAWN_RATE = 1500; // ms
 
 // Estado del Juego
@@ -270,6 +271,7 @@ class Item {
 }
 
 const player = new Player();
+resizeCanvas();
 
 // Control de entrada
 window.addEventListener('keydown', (e) => player.keys[e.key] = true);
