@@ -10,21 +10,21 @@ class UIScene extends Phaser.Scene {
 
         // Score con animación de rolling
         this.displayScore = 0;
-        this.scoreText = this.add.text(20, 20, 'Puntaje: 0', { ...bouncyStyle, fontSize: '48px', fill: '#ffffff' });
-        this.movesText = this.add.text(20, 80, 'Movimientos: ' + gameScene.moves, { ...roundedStyle, fontSize: '28px', fill: '#cccccc' });
-        this.objectiveText = this.add.text(20, 120, gameScene.objectiveDescription, { ...roundedStyle, fontSize: '22px', fill: '#ffcc00' });
+        this.scoreText = this.add.text(40, 40, 'Puntaje: 0', { ...bouncyStyle, fontSize: '56px', fill: '#ffffff' });
+        this.movesText = this.add.text(40, 110, 'Movimientos: ' + gameScene.moves, { ...roundedStyle, fontSize: '32px', fill: '#cccccc' });
+        this.objectiveText = this.add.text(40, 160, gameScene.objectiveDescription, { ...roundedStyle, fontSize: '26px', fill: '#ffcc00' });
 
         // Add Logo
-        const logo = this.add.image(this.game.config.width - 20, 20, 'logo');
+        const logo = this.add.image(this.game.config.width - 40, 40, 'logo');
         logo.setOrigin(1, 0);
-        logo.setDisplaySize(150, 60);
+        logo.setDisplaySize(180, 72);
         logo.setAlpha(0);
 
         // Intro Animation for UI (GSAP Style) - Solo se activa tras el modal
         const { width, height } = this.game.config;
-        this.instructionText = this.add.text(width / 2, height - 30, 'Desliza o toca para mover las piezas', {
+        this.instructionText = this.add.text(width / 2, height - 60, 'Desliza o toca para mover las piezas', {
             fontFamily: 'Fredoka',
-            fontSize: '24px',
+            fontSize: '28px',
             fill: '#ffffff',
             align: 'center'
         }).setOrigin(0.5);

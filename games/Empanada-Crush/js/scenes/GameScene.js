@@ -91,7 +91,7 @@ class GameScene extends Phaser.Scene {
 
         const boardWidth = this.gridSize * (this.tileSize + this.tileSpacing);
         this.boardOffsetX = (this.game.config.width - boardWidth) / 2 + this.tileSize / 2;
-        this.boardOffsetY = (this.game.config.height - boardWidth) / 2 + this.tileSize / 2 + 60;
+        this.boardOffsetY = (this.game.config.height - boardWidth) / 2 + this.tileSize / 2;
 
         this.input.on('pointerup', (pointer) => {
             if (this.dragging && this.selectedTile) {
