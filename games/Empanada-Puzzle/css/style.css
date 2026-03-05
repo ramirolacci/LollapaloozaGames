@@ -143,12 +143,12 @@ main {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 500px;
+    max-width: 800px;
     align-items: center;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(16px);
-    padding: 1.5rem;
-    border-radius: 1rem;
+    padding: 2rem 3rem;
+    border-radius: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
@@ -184,7 +184,7 @@ main {
 }
 
 .timer-text .value {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: 900;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -223,13 +223,13 @@ main {
     gap: 0.25rem;
     background: rgba(255, 255, 255, 0.05);
     padding: 0.5rem;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(4px);
     position: relative;
     overflow: hidden;
-    width: min(90vw, 500px);
+    width: min(95vw, 850px);
     aspect-ratio: 1/1;
     /* Grid columns set by JS */
 }
@@ -278,15 +278,16 @@ main {
 
 /* Overlays (Start & Modal) */
 .overlay {
-    position: absolute;
+    position: fixed;
     inset: 0;
-    z-index: 50;
+    border-radius: 0;
+    z-index: 2000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
     transition: opacity 0.3s ease;
     padding: 1rem;
 }
@@ -297,7 +298,7 @@ main {
 }
 
 .overlay h2 {
-    font-size: 4rem;
+    font-size: 5rem;
     font-family: var(--font-display);
     font-weight: 900;
     color: var(--color-primary);
@@ -309,21 +310,21 @@ main {
 
 .instructions-content {
     background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 1.5rem;
-    margin-bottom: 2rem;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    margin-bottom: 2.5rem;
     text-align: left;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     max-width: 90%;
-    width: 400px;
+    width: 450px;
 }
 
 .instructions-content p {
     color: var(--color-primary);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 900;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -334,9 +335,9 @@ main {
 }
 
 .instructions-content li {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     color: white;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     font-weight: 700;
     line-height: 1.4;
     display: flex;
@@ -351,13 +352,13 @@ main {
 }
 
 .cta-btn {
-    padding: 1.25rem 3rem;
+    padding: 1.5rem 4rem;
     background-color: var(--color-primary);
     color: black;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 900;
     border: none;
-    border-radius: 1.25rem;
+    border-radius: 1.5rem;
     cursor: pointer;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -383,38 +384,28 @@ main {
     /* gray-100 */
 }
 
-/* Modal Specifics */
-.modal-content {
-    text-align: center;
-    padding: 2rem;
-    animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalPop {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-#result-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
 #result-message {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 2rem;
-    max-width: 280px;
-    margin-left: auto;
-    margin-right: auto;
+    color: white;
+    font-size: 1.8rem;
     font-weight: 500;
+    max-width: 450px;
+    margin-bottom: 2.5rem;
     line-height: 1.5;
+    text-align: center;
+}
+
+.cta-btn.secondary {
+    margin-top: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 1rem 3rem;
+    font-size: 1.4rem;
+    box-shadow: none;
+}
+
+.cta-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
 }
 
 .text-red {
@@ -513,14 +504,14 @@ main {
     }
 
     .hud {
-        padding: 1rem 1.5rem;
+        padding: 1.5rem 2rem;
         flex-wrap: nowrap;
         /* Keep timer left, restart right */
         gap: 1rem;
         justify-content: space-between;
         margin-top: 2rem;
         width: 100%;
-        max-width: 400px;
+        max-width: 600px;
     }
 
     .timer-container {
@@ -590,10 +581,10 @@ main {
     }
 
     .puzzle-grid {
-        width: 90vw;
-        height: 90vw;
-        max-width: 480px;
-        max-height: 480px;
+        width: 95vw;
+        height: 95vw;
+        max-width: 600px;
+        max-height: 600px;
     }
 
     /* Target specific instructions under the grid */
