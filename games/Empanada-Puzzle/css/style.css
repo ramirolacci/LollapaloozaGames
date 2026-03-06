@@ -480,7 +480,9 @@ main {
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 100%;
+        margin-top: 8rem;
+        /* Space for the fixed header */
+        padding-bottom: 2rem;
     }
 
     .game-board-container {
@@ -490,12 +492,13 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-grow: 1;
-        /* Occupy available space to help centering */
+        gap: 1rem;
+        /* Reduced gap */
     }
 
     header {
-        top: 2rem;
+        top: 1rem;
+        /* Less space from top */
         position: fixed;
         /* Keep it fixed at top */
         z-index: 100;
@@ -503,46 +506,70 @@ main {
     }
 
     h1 {
-        font-size: 1.875rem;
-        /* 3xl */
+        font-size: 1.5rem;
+        /* Reduced from 1.875rem */
+        line-height: 1;
+    }
+
+    .subtitle {
+        font-size: 0.65rem;
+        margin-top: 0.25rem;
     }
 
     #logo {
-        height: 3.5rem;
-        left: 0;
-        position: relative;
-        margin-right: 0.5rem;
+        height: 2.5rem;
+        /* Reduced from 3.5rem */
+        margin-bottom: 0.25rem;
     }
 
     .logo-container {
         justify-content: center;
+        margin-bottom: 0.25rem;
     }
 
     .hud {
-        padding: 1.5rem 2rem;
+        padding: 0.75rem 1.25rem;
+        /* Much more compact */
         flex-wrap: nowrap;
         /* Keep timer left, restart right */
         gap: 1rem;
         justify-content: space-between;
-        margin-top: 2rem;
+        margin-top: 0;
         width: 100%;
-        max-width: 600px;
+        max-width: 400px;
+        /* Narrower for mobile */
+        border-radius: 1rem;
     }
 
     .timer-container {
         width: auto;
         justify-content: flex-start;
-        gap: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .timer-text .value {
+        font-size: 1.5rem;
+        /* Reduced from 2.5rem */
+    }
+
+    .icon-box {
+        padding: 0.4rem;
+        border-radius: 0.5rem;
+    }
+
+    .icon-box svg {
+        width: 18px;
+        height: 18px;
     }
 
     .restart-btn {
-        position: relative;
-        /* Back in the HUD flow */
-        bottom: auto;
-        right: auto;
-        padding: 0.75rem;
-        z-index: 10;
-        box-shadow: none;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .restart-btn svg {
+        width: 18px;
+        height: 18px;
     }
 
     /* Mobile Modal behavior for overlays - THE FIX */
@@ -597,15 +624,17 @@ main {
     }
 
     .puzzle-grid {
-        width: 95vw;
-        height: 95vw;
-        max-width: 600px;
-        max-height: 600px;
+        width: 90vw;
+        height: 90vw;
+        max-width: 350px;
+        max-height: 350px;
+        border-radius: 1rem;
+        padding: 0.25rem;
     }
 
     /* Target specific instructions under the grid */
     .instructions {
-        margin-top: 1.5rem;
-        font-size: 0.75rem;
+        margin-top: 1rem;
+        font-size: 0.7rem;
     }
 }
