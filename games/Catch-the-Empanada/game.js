@@ -24,8 +24,8 @@ const gameContainer = document.getElementById('game-container');
 // Configuración del Juego
 let CANVAS_WIDTH = window.innerWidth;
 let CANVAS_HEIGHT = window.innerHeight;
-const PLAYER_WIDTH = 100;
-const PLAYER_HEIGHT = 40;
+const PLAYER_WIDTH = 90;
+const PLAYER_HEIGHT = 36;
 const ITEM_SIZE = 60;
 const MAX_ITEMS = 8;
 
@@ -181,7 +181,8 @@ class Item {
         if (forcedX !== null) {
             this.x = forcedX;
         } else {
-            this.x = Math.random() * (CANVAS_WIDTH - ITEM_SIZE);
+            const margin = 15;
+            this.x = margin + Math.random() * Math.max(0, CANVAS_WIDTH - ITEM_SIZE - margin * 2);
         }
 
         this.y = -ITEM_SIZE;
@@ -371,26 +372,33 @@ function updateHUD() {
 
 function spawnStrategicPattern() {
     const patternType = Math.floor(Math.random() * 3);
-    const spacing = 110; // Aumentado para que la caja (100px) quepa cómodamente
+    const margin = 15;
 
     switch (patternType) {
-        case 0: // El Sándwich: [Bomba] [Empanada] [Bomba]
-            const startX = Math.random() * (CANVAS_WIDTH - spacing * 3);
+        case 0: { // El Sándwich: [Bomba] [Empanada] [Bomba]
+            const maxSpacing = Math.max(ITEM_SIZE, (CANVAS_WIDTH - ITEM_SIZE - margin * 2) / 2);
+            const spacing = Math.min(110, maxSpacing);
+            const startX = margin + Math.random() * Math.max(0, CANVAS_WIDTH - ITEM_SIZE - margin * 2 - spacing * 2);
             items.push(new Item('bombita', startX));
             items.push(new Item('empanada', startX + spacing));
             items.push(new Item('bombita', startX + spacing * 2));
             break;
-        case 1: // El Muro con hueco: [Bomba] [Bomba] [Empanada] [Bomba]
-            const startX2 = Math.random() * (CANVAS_WIDTH - spacing * 4);
+        }
+        case 1: { // El Muro con hueco: [Bomba] [Bomba] [Empanada] [Bomba]
+            const maxSpacing = Math.max(ITEM_SIZE, (CANVAS_WIDTH - ITEM_SIZE - margin * 2) / 3);
+            const spacing = Math.min(110, maxSpacing);
+            const startX2 = margin + Math.random() * Math.max(0, CANVAS_WIDTH - ITEM_SIZE - margin * 2 - spacing * 3);
             const gapIndex = Math.floor(Math.random() * 4);
             for (let i = 0; i < 4; i++) {
                 items.push(new Item(i === gapIndex ? 'empanada' : 'bombita', startX2 + i * spacing));
             }
             break;
-        case 2: // Doble Diagonal: [Empanada] y [Empanada] en puntas
-            items.push(new Item('empanada', 20));
-            items.push(new Item('empanada', CANVAS_WIDTH - ITEM_SIZE - 20));
+        }
+        case 2: { // Doble Diagonal: [Empanada] y [Empanada] en puntas
+            items.push(new Item('empanada', margin));
+            items.push(new Item('empanada', Math.max(margin + ITEM_SIZE, CANVAS_WIDTH - ITEM_SIZE - margin)));
             break;
+        }
     }
 }
 
