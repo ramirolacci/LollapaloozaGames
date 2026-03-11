@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "Empanada Arcade - Menú de Juegos",
   "scripts": {
-    "dev": "live-server --host=localhost --port=3001 --open=/",
-    "start": "live-server --host=localhost --port=3001 --open=/"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build --emptyOutDir",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
-    "vite-plugin-pwa": "^1.2.0"
+    "vite": "^7.3.1",
+    "vite-plugin-pwa": "^1.2.0",
+    "vite-plugin-static-copy": "^3.2.0"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

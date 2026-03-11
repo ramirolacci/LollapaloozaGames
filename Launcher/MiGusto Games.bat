@@ -1,4 +1,4 @@
 @echo off
-cd /d C:\Users\Admin\LollapaloozaGames
+cd /d C:\Users\Gustavo\LollapaloozaOrderCaller
 npm run dev
 pause
