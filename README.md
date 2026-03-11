@@ -82,4 +82,4 @@ Cada juego vive dentro de la carpeta `games/*/index.html` y se abre en el navega
 # Desarrolladores
 
 - **Facundo Carrizo** — GitHub: [@facu14carrizo](https://github.com/facu14carrizo) · LinkedIn: [facu14carrizo](https://www.linkedin.com/in/facu14carrizo)
-- **Ramiro Lacci** — GitHub: [@ramirolacci19](https://github.com/ramirolacci19) · LinkedIn: [ramiro-lacci](https://www.linkedin.com/in/ramiro-lacci)
+- **Ramiro Lacci** — GitHub: [@ramirolacci19](https://github.com/ramirolacci) · LinkedIn: [ramiro-lacci](https://www.linkedin.com/in/ramiro-lacci)
