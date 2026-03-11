@@ -122,7 +122,7 @@ class GameScene extends Phaser.Scene {
         // Cheat Listener
         this.events.on('cheatScore', () => {
             if (!this.levelManager.isGameOver) {
-                this.score = 600;
+                this.score = 1000;
                 this.events.emit('updateScore', this.score);
                 this.showFloatingText(this.game.config.width / 2, this.game.config.height / 2, '¡HACKER!');
                 this.checkGameOver();
